@@ -1,0 +1,21 @@
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT=6379
+
+  main:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports: ['3000:3000']
+    restart: always
+    depends_on:
+      - redis
